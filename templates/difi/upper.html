@@ -14,12 +14,12 @@
             
         </div>
         <form>
-            <form method="post" action="{% url 'pybo:index' %}">
+            <form method="post" action="{% url 'difi:index' %}">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-primary">추가</button>
             </form>
             {% comment %} <a href="{% url 'difi:index' %}" class="btn btn-primary">추가</a> {% endcomment %}
-        <form/>
+          </form>
     </div>
 
     <!-- Modal -->
@@ -32,10 +32,8 @@
             </div>
             <div class="modal-body">
                 <input type="search" id="search_kw" class="form_control"  value="{{ kw|default_if_none:'' }}" placeholder="종목명 or 종목코드 입력" size="25"> 
+
                 <button class="btn btn-outline-secondary" id="btn_search" type="button">검색</button>
-
-
-
             </div>
             <div class="modal-footer">
             
