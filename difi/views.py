@@ -25,12 +25,12 @@ def search(request):
 def stock_add(request, stock_info_ticker):
     if request.method == 'POST':
         sv_form = StockValueForm(request.POST)
-        st_form = StockTsForm(request.POST)
         if form.is_valid():
             sv_form = sv_form.save(commit=False)
-            st_form = st_form.save(commit=False)
-            stock = fdr.DataReader(stockCode[i],startDate,endDate).filter(['Close','Change'])
-            
+            stocks = fdr.DataReader(sv_form.ticker,sv_form.startDate,sv_form.endDate).filter(['Close','Change'])
+            for stock in range(len(stocks)):
+                a = stock_ts(Close=stock["Close"],Change=stock["Change"])
+                
             
             sv_form.save()
             return redirect('difi:index')
