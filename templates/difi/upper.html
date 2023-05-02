@@ -13,7 +13,13 @@
             </div>
             
         </div>
-        <a href="{% url 'difi:index' %}" class="btn btn-primary">추가</a>
+        <form>
+            <form method="post" action="{% url 'pybo:index' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary">추가</button>
+            </form>
+            {% comment %} <a href="{% url 'difi:index' %}" class="btn btn-primary">추가</a> {% endcomment %}
+        <form/>
     </div>
 
     <!-- Modal -->
@@ -24,11 +30,12 @@
             <h5 class="modal-title" id="staticBackdropLabel">종목검색</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            {%for stock in stock_info_list%}
-                <p>{{stock.ticker}} {{stock.stock_name}}<p>
-            {%endfor%}
             <div class="modal-body">
-                <input type="search" id="kw" placeholder="종목명 or 종목코드 입력" size="25"> <button class="btn btn-outline-secondary" id="btn_search" type="button">검색</button>
+                <input type="search" id="search_kw" class="form_control"  value="{{ kw|default_if_none:'' }}" placeholder="종목명 or 종목코드 입력" size="25"> 
+                <button class="btn btn-outline-secondary" id="btn_search" type="button">검색</button>
+
+
+
             </div>
             <div class="modal-footer">
             
@@ -101,18 +108,20 @@
         <a href="{% url 'difi:index' %}" class="btn btn-primary">계산</a>
     </div>
 </div>
-
-{% comment %} <form id="searchForm" method="get" action="{% url 'index' %}">
+<form id="searchForm" method="get" action="{% url 'difi:index' %}">
     <input type="hidden" id="kw" name="kw" value="{{ kw|default_if_none:'' }}">
-</form> {% endcomment %}
-
+</form>
 {% endblock %}
 
-{% comment %} {% block script %}
+{% block script %}
+<script src='https://code.jquery.com/jquery-3.4.1.js'></script>
 <script type='text/javascript'>
-const btn_search = document.getElementById("btn_search");
-btn_search.addEventListener('click', function() {
-    //document.getElementById('kw').value = document.getElementById('search_kw').value;
-});
+
+    $('#btn_search').on('click', function(){
+        console.log("검색");
+        document.getElementById('kw').value = document.getElementById('search_kw').value;
+        document.getElementById('searchForm').submit();
+        ;
+      });
 </script>
-{% endblock %} {% endcomment %}
+{% endblock %}
