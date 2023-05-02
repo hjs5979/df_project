@@ -3,11 +3,116 @@
 <div class="container my-3">
     <div class="card my-3">
         <div class="card-body">
-            <div class="card-text" style="white-space: pre-line;">투자기간</div>
-            <div class="card-text" style="white-space: pre-line;">종목</div>    
+            <div class="card-text"> 투자기간 :
+                <input type="date"> ~ <input type="date">
+            </div>
+            <br>
+            
+            <div class="card-text"> 종목 : 
+                <input type="search" placeholder="종목코드/종목명" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            </div>
+            
         </div>
-            <a href="{% url 'difi:index' %}" class="btn btn-primary">추가</a>
+        <a href="{% url 'difi:index' %}" class="btn btn-primary">추가</a>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">종목검색</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            {%for stock in stock_info_list%}
+                <p>{{stock.ticker}} {{stock.stock_name}}<p>
+            {%endfor%}
+            <div class="modal-body">
+                <input type="search" id="kw" placeholder="종목명 or 종목코드 입력" size="25"> <button class="btn btn-outline-secondary" id="btn_search" type="button">검색</button>
+            </div>
+            <div class="modal-footer">
+            
+            <button type="button" class="btn btn-primary">Ok</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
         </div>
     </div>
 </div>
+
+<div class="container my-3">
+    <div class="card my-3">
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">종목명</th>
+                    <th scope="col">종목코드</th>
+                    <th scope="col">매입가</th>
+                    <th scope="col">현재가</th>
+                    <th scope="col">수량</th>
+                    <th scope="col">매입금액</th>
+                    <th scope="col">평가금액</th>
+                    <th scope="col">평가손익</th>
+                    <th scope="col">수익률</th>
+                    <th scope="col">투자비율</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                  </tr>
+                </tbody>
+              </table>
+        </div>
+        <a href="{% url 'difi:index' %}" class="btn btn-primary">계산</a>
+    </div>
+</div>
+
+<div class="container my-3">
+    <div class="card my-3">
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">총 투자금액</th>
+                    <th scope="col">총 평가금액</th>
+                    <th scope="col">총 평가손익</th>
+                    <th scope="col">총 수익률</th>
+                    <th scope="col">PF 기대수익률</th>
+                    <th scope="col">PF 위험</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+        </div>
+        <a href="{% url 'difi:index' %}" class="btn btn-primary">계산</a>
+    </div>
+</div>
+
+{% comment %} <form id="searchForm" method="get" action="{% url 'index' %}">
+    <input type="hidden" id="kw" name="kw" value="{{ kw|default_if_none:'' }}">
+</form> {% endcomment %}
+
 {% endblock %}
+
+{% comment %} {% block script %}
+<script type='text/javascript'>
+const btn_search = document.getElementById("btn_search");
+btn_search.addEventListener('click', function() {
+    //document.getElementById('kw').value = document.getElementById('search_kw').value;
+});
+</script>
+{% endblock %} {% endcomment %}
