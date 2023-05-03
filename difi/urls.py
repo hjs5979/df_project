@@ -5,5 +5,7 @@ from . import views
 app_name = 'difi'
 
 urlpatterns = [
-    path('<str:stock_info_ticker>/', views.search, name='search'),
+    path('', views.index, name='index'),
+    path('<str:search_param>/', views.search, name='search'),
+    path('stock', views.get_one, name='get_one')
 ]

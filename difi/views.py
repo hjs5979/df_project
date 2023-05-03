@@ -6,6 +6,10 @@ import FinanceDataReader as fdr
 from django.http import HttpResponse
 from django.http import JsonResponse
 from django.core import serializers
+import json
+
+def index(request):
+    return HttpResponse("avc")
 
 def search(request, search_param):
     if request.method == 'GET':
@@ -18,24 +22,32 @@ def search(request, search_param):
 
         return HttpResponse(rl,content_type="application/json")
 
-def insert_ts(request):
-        #ticker
-        #id
-        #date
-        #close
-        #change
+def insert_ts(request, ):
+    return 1
+    #ticker
+    #id
+    #date
+    #close
+    #change
 
 def get_one(request):
-    stocks = fdr.DataReader().filter(['Close','Change'])
-
-    return
+    if request.method=='GET':
+        get_ticker = request.GET['ticker']
+        # get_startDate = request.GET['startDate']
+        # get_endDate = request.GET['endDate']
+        # get_quantity = request.GET['quantity']
+        stock = stock_info.objects.get(ticker=get_ticker)
+        # ret = serializers.serialize('json', stock)
+        
+    return JsonResponse({'ticker':stock.ticker, 
+                         'stock_name':stock.stock_name})
     #ts
     #startDate_close
     #endDate_close
 
 
 def add_one(request):
-    if request.method == 'POST':
+    # if request.method == 'POST':
         #ticker
         #stock_name
         
@@ -44,7 +56,7 @@ def add_one(request):
 
         #quantity
 
-    return
+    return 1
         
 
 
