@@ -6,6 +6,6 @@ app_name = 'difi'
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('<str:search_param>/', views.search, name='search'),
+    path('<str:search_param>', views.search, name='search'),
     path('stock', views.get_one, name='get_one')
 ]
