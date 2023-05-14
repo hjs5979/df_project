@@ -12,11 +12,11 @@ class stock_ts(models.Model):
     date = models.DateField()
     close = models.IntegerField()
     change = models.DecimalField(max_digits=19, decimal_places=6)
-    ticker = models.ForeignKey(stock_info, on_delete=models.CASCADE)
+    ticker = models.TextField()
     
 class stock_value(models.Model):
-    ticker = models.ForeignKey(stock_info, on_delete=models.CASCADE, related_name = 'stock_info_ticker')
-    stock_name = models.ForeignKey(stock_info, on_delete=models.CASCADE, related_name = 'stock_info_stock_name')
+    ticker = models.TextField()
+    stock_name = models.TextField()
     startDate = models.DateField(null=True)
     endDate = models.DateField(null=True)
     startDate_close = models.IntegerField(null=True)

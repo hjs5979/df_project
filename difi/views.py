@@ -8,12 +8,13 @@ from django.http import JsonResponse
 from django.core import serializers
 import json
 from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import method_decorator
+# from django.utils.decorators import method_decorator
 
-
+@csrf_exempt
 def index(request):
     return HttpResponse("avc")
 
+@csrf_exempt
 def search(request, search_param):
     if request.method == 'GET':
         stock_info_list = stock_info.objects.filter(
@@ -24,15 +25,16 @@ def search(request, search_param):
         rl = serializers.serialize('json',stock_info_list)
 
         return HttpResponse(rl,content_type="application/json")
-
-def insert_ts(request, ):
-    return 1
-    #ticker
-    #id
-    #date
-    #close
+    
+# @csrf_exempt
+# def insert_ts(request, ):
+#     return 1
+#     #ticker
+#     #id
+#     #date
+#     #close
     #change
-
+@csrf_exempt
 def get_one(request):
     
     if request.method=='GET':
@@ -54,23 +56,37 @@ def get_one(request):
     #startDate_close
     #endDate_close
 
-@method_decorator(csrf_exempt,name='dispatch')
+@csrf_exempt
 def add_one(request):
-    if request.method == 'POST':
-        data = json.loads(request.body)
-        #ticker
-        #stock_name
+    if request.method=='POST':
+        bod = json.loads(request.body)
+        posted_ticker =  bod['ticker']
+        posted_startDate = bod['startDate']
+        posted_endDate = bod['endDate']
         
-        #startDate
-        #endDate
-
-        #quantity
-        return JsonResponse({'ticker' : data.ticker})
+        print(posted_ticker)
+        posted_info = stock_info.objects.get(ticker=posted_ticker)
+        print(a.stock_name)
         
-
-
-
-
+        ts = fdr.DataReader(posted_ticker,posted_startDate,posted_endDate).filter(['Close','Change'])
+        ts = ts.reset_index()
+        
+        print(ts)
+        for i in range(len(ts)):
+            ts_tuple = ts.iloc[i]
+            stock_ts.objects.create(date=ts_tuple['Date'], close=ts_tuple['Close'], change=ts_tuple['Change'], ticker=posted_ticker)
+        
+        start_price = ts['Close'][0]
+        end_price = ts['Close'][-1]
+        
+        stock_value.objects.create(ticker=posted_ticker, 
+                                   stock_name=posted_info.stock_name,
+                                   startDate_close=start_price,
+                                   endDate_close=end_price
+                                   )
+        
+        
+    
         #start_value
         #end_value
         #ugl
