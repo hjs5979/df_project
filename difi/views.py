@@ -7,6 +7,9 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from django.core import serializers
 import json
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+
 
 def index(request):
     return HttpResponse("avc")
@@ -31,6 +34,7 @@ def insert_ts(request, ):
     #change
 
 def get_one(request):
+    
     if request.method=='GET':
         get_ticker = request.GET['ticker']
         # get_startDate = request.GET['startDate']
@@ -38,16 +42,22 @@ def get_one(request):
         # get_quantity = request.GET['quantity']
         stock = stock_info.objects.get(ticker=get_ticker)
         # ret = serializers.serialize('json', stock)
+        # ts = fdr.DataReader(stockCode[0],startDate,endDate).filter(['Close','Change'])
         
+
+
+        # instance = stock_ts.objects.create()
+
     return JsonResponse({'ticker':stock.ticker, 
                          'stock_name':stock.stock_name})
     #ts
     #startDate_close
     #endDate_close
 
-
+@method_decorator(csrf_exempt,name='dispatch')
 def add_one(request):
-    # if request.method == 'POST':
+    if request.method == 'POST':
+        data = json.loads(request.body)
         #ticker
         #stock_name
         
@@ -55,8 +65,7 @@ def add_one(request):
         #endDate
 
         #quantity
-
-    return 1
+        return JsonResponse({'ticker' : data.ticker})
         
 
 
