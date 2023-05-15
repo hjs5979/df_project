@@ -104,22 +104,25 @@ def add_one(request):
         return HttpResponse(ret, content_type="application/json")
     
     else:
+        print(request.body)
         bod = json.loads(request.body)
+        print(bod)
+        # deleting_ticker = bod['ticker']
         
-        deleting_ticker = bod['ticker']
+        # filter_stock_ts_list = stock_ts.objects.filter(ticker=deleting_ticker)
         
-        filter_stock_ts_list = stock_ts.objects.filter(ticker=deleting_ticker)
+        # filter_stock_ts_list.delete()
         
-        filter_stock_ts_list.delete()
+        # filter_stock_value_list = stock_value.objects.filter(ticker=deleting_ticker)
         
-        filter_stock_value_list = stock_value.objects.filter(ticker=deleting_ticker)
+        # filter_stock_value_list.delete()
         
-        filter_stock_value_list.delete()
+        # stock_value_list = stock_value.objects.all()
+        # ret = serializers.serialize('json', stock_value_list)
         
-        stock_value_list = stock_value.objects.all()
-        ret = serializers.serialize('json', stock_value_list)
         
-        return HttpResponse(ret, content_type="application/json")
+        
+        # return HttpResponse(ret, content_type="application/json")
         
         
         
