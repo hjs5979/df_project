@@ -60,24 +60,31 @@ def get_one(request):
 def add_one(request):
     if request.method=='POST':
         bod = json.loads(request.body)
+        
         posted_ticker =  bod['ticker']
         posted_startDate = bod['startDate']
         posted_endDate = bod['endDate']
         
-        print(posted_ticker)
         posted_info = stock_info.objects.get(ticker=posted_ticker)
-        print(a.stock_name)
         
         ts = fdr.DataReader(posted_ticker,posted_startDate,posted_endDate).filter(['Close','Change'])
-        ts = ts.reset_index()
         
-        print(ts)
+        ts = ts.reset_index()
+        # print(posted_ticker, posted_startDate, posted_endDate)
+        # print(ts)
+        
+        # a = ts.iloc[0]['Close']
+        # b = ts.iloc[-1]['Close']
+        
+        # print(a,b)
+        
         for i in range(len(ts)):
             ts_tuple = ts.iloc[i]
+            # print(ts_tuple)
             stock_ts.objects.create(date=ts_tuple['Date'], close=ts_tuple['Close'], change=ts_tuple['Change'], ticker=posted_ticker)
-        
-        start_price = ts['Close'][0]
-        end_price = ts['Close'][-1]
+
+        start_price = ts.iloc[0]['Close']
+        end_price = ts.iloc[-1]['Close']
         
         stock_value.objects.create(ticker=posted_ticker, 
                                    stock_name=posted_info.stock_name,
@@ -85,12 +92,43 @@ def add_one(request):
                                    endDate_close=end_price
                                    )
         
+        stock_value_list = stock_value.objects.all()
+        ret = serializers.serialize('json', stock_value_list)
         
+        return HttpResponse(ret, content_type="application/json")
     
-        #start_value
-        #end_value
-        #ugl
-        #return_rate
+    elif request.method=='GET':
+        stock_value_list = stock_value.objects.all()
+        ret = serializers.serialize('json', stock_value_list)
+        
+        return HttpResponse(ret, content_type="application/json")
+    
+    else:
+        bod = json.loads(request.body)
+        
+        deleting_ticker = bod['ticker']
+        
+        filter_stock_ts_list = stock_ts.objects.filter(ticker=deleting_ticker)
+        
+        filter_stock_ts_list.delete()
+        
+        filter_stock_value_list = stock_value.objects.filter(ticker=deleting_ticker)
+        
+        filter_stock_value_list.delete()
+        
+        stock_value_list = stock_value.objects.all()
+        ret = serializers.serialize('json', stock_value_list)
+        
+        return HttpResponse(ret, content_type="application/json")
+        
+        
+        
+        
+        
+        
+        
+        
+        
 
 
 
