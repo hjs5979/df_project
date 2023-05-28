@@ -103,27 +103,21 @@ def add_one(request):
         
         return HttpResponse(ret, content_type="application/json")
     
-    else:
-        print(request.body)
-        bod = json.loads(request.body)
-        print(bod)
-        # deleting_ticker = bod['ticker']
-        
-        # filter_stock_ts_list = stock_ts.objects.filter(ticker=deleting_ticker)
-        
-        # filter_stock_ts_list.delete()
-        
-        # filter_stock_value_list = stock_value.objects.filter(ticker=deleting_ticker)
-        
-        # filter_stock_value_list.delete()
-        
-        # stock_value_list = stock_value.objects.all()
-        # ret = serializers.serialize('json', stock_value_list)
-        
-        
-        
-        # return HttpResponse(ret, content_type="application/json")
-        
+@csrf_exempt
+def delete_one(request, delete_param):
+    if request.method == 'DELETE':
+        delete_ts_list = stock_ts.objects.filter(ticker=delete_param)
+
+        delete_ts_list.delete()
+
+        delete_value_list = stock_value.objects.get(ticker=delete_param)
+
+        delete_value_list.delete()
+
+        stock_value_list = stock_value.objects.all()
+        ret = serializers.serialize('json', stock_value_list)
+
+        return HttpResponse(ret, content_type="application/json")
         
         
         
