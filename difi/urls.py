@@ -14,7 +14,8 @@ urlpatterns = [
     path('calcstock',views.calc_stock, name='calc_stock'),
     path('login', views.login, name='login'),
     path('idcheck', views.id_check, name='id_check'),
-    path('signup', views.signup, name='signup')
-    
+    path('signup', views.signup, name='signup'),
+    path('selectuser', views.select_user, name='select_user'),
+    path('checkuser', views.check_user, name='check_user')
 
 ]

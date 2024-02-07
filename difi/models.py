@@ -20,7 +20,7 @@ class stock(models.Model):
 class user(models.Model):
     user_id = models.CharField(max_length=20, primary_key=True)
     user_name = models.CharField(max_length=20)
-    user_password = models.CharField(max_length=100)
+    user_password = models.CharField(max_length=1000)
     user_email = models.CharField(max_length=100)
     def print_object_details(self):
     # 모델의 메타데이터에서 모든 필드 정보를 가져옵니다.
