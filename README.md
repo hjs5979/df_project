@@ -16,6 +16,7 @@ https://
 
 > React.js
 
+[프론트엔드 레포지토리](https://github.com/hjs5979/df-fe-app)
 <br />
 
 ## ERD
@@ -47,6 +48,5 @@ https://
 
 ### 3. 로그인 / 로그아웃 기능
 > Redis를 통해 토큰 기반 인증 구현. Access Token과 Refresh Token을 통해 로그인/로그아웃 구현.
-
 <br />
 
